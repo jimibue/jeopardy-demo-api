@@ -18,17 +18,26 @@ class Api::CategoriesController < ApplicationController
   end
 
   def create_category_with_cards
-    name = params[:name]
-    question1 = params[:question1]
-    question2 = params[:question2]
-    question3 = params[:question3]
+    new_category = Category.create(name: params[:name])
 
-    new_category = Category.create(name: name)
-    card1 = new_category.cards.create(question: question1)
-    card2 = new_category.cards.create(question: question2)
-    card3 = new_category.cards.create(question: question3)
-    card3 = new_category.cards.create(question: params[:x])
+    if params[:q1]
+      new_category.cards.create(question: params[:q1], a1: params[:q1_a1], a2: params[:q1_a2], correct_answer: params[:q1_correct_answer], points: params[:q1_points])
+    end
+
+    if params[:q2]
+      new_category.cards.create(question: params[:q2], a1: params[:q2_a1], a2: params[:q2_a2], correct_answer: params[:q2_correct_answer], points: params[:q2_points])
+    end
+
+    if params[:q3]
+      new_category.cards.create(question: params[:q3], a1: params[:q3_a1], a2: params[:q3_a2], correct_answer: params[:q3_correct_answer], points: params[:q3_points])
+    end
 
     render json: new_category.to_json(include: [:cards])
+  end
+
+  def create_card
+    category = Category.find(params[:id])
+
+    category.cards.create(question: params[:question], a1: params[:a1], a2: params[:a2], correct_answer: params[:correct_answer], points: params[:points])
   end
 end

@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     end
     get "new_game", to: "categories#new_game"
     post "create_category_with_cards", to: "categories#create_category_with_cards"
+    post "create_card", to: "categories#create_card"
   end
 end
